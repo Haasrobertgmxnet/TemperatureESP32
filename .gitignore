@@ -1,0 +1,25 @@
+# Byte-compiled / cached files
+__pycache__/
+*.pyc
+*.pyo
+
+# Thonny spezifisch
+.thonny/
+
+# VS Code Einstellungen (nur lokale Einstellungen)
+.vscode/
+
+# MicroPico Konfigurationsordner
+.micropico/
+
+# MacOS Finder-Dateien
+.DS_Store
+
+# Windows Thumbs
+Thumbs.db
+
+# Micropython Board Files (falls per Download geholt)
+# -> Dateien auf dem ESP32 speicherst du nicht ins Repo,
+#    außer du willst sie versionieren
+device_downloads/
+/config.py

@@ -1,0 +1,7 @@
+# config.py
+
+# WLAN-Name (SSID)
+WIFI_SSID = "FRITZ!Box 7530 JG"
+
+# WLAN-Passwort
+WIFI_PASSWORD = "04215068893984266369"
