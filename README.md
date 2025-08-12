@@ -13,6 +13,12 @@
 Dieses Projekt zeigt, wie ein **ESP32** mit verschiedenen Umweltsensoren Temperatur, Luftfeuchtigkeit und Luftdruck misst,  
 die Werte auf einem **SSD1306 OLED** anzeigt und gleichzeitig in einer **CSV-Datei** auf dem ESP32 speichert.  
 
+### Microcontroller-Board
+- MaESP ESP32 OLED von Makerfabs
+- Chip: Espressif ESP32 WROOM-32-E
+- On-board-OLED 1.3"
+- Bezugsquelle und weitere Spezifikationen: [Makerfabs](https://www.makerfabs.com/makepython-esp32.html?srsltid=AfmBOoo98ESGWyOQi_EoxggwQ4zqeoW0mktzH6rABH1KU28PcvKacGX1)
+
 ### 📟 Unterstützte Sensoren
 - **BME280** – Temperatur, Luftfeuchtigkeit, Luftdruck  
 - **BMP280** – Temperatur, Luftdruck  
@@ -46,10 +52,15 @@ die Werte auf einem **SSD1306 OLED** anzeigt und gleichzeitig in einer **CSV-Dat
    → z. B. mit [Thonny](https://thonny.org) oder `esptool.py`
 2. **Bibliotheken hochladen** (`ssd1306.py`, `bmp280.py`, `bme280.py`, `sht4x.py`, `tmp117.py`)
 3. Hauptskript `main.py` auf den ESP32 kopieren
-4. WLAN-Zugangsdaten im Code anpassen:
+4. Lösche in `main.py` die folgende Zaile:
    ```python
-   connect_wifi("MEIN_WIFI", "MEIN_PASSWORT")
+   from config import WIFI_SSID, WIFI_PASSWORD  # Deine WLAN-Zugangsdaten
    ```
+   Ersetze in `main.py` `WIFI_SSID` und `WIFI_PASSWORD` mit den Daten des eigenen WLAN:
+   ```python
+   connect_wifi(WIFI_SSID, WIFI_PASSWORD) 
+   ```
+   Oder ignoriere die ersten beiden Schritte in 4. und erzeuge eine neue Datei config.py mit den Variablen `WIFI_SSID` und `WIFI_PASSWORD` für die Daten des eigenen WLANs. 
 5. ESP32 starten – die Messwerte erscheinen auf dem OLED und werden in `log.csv` gespeichert.
 
 ---
@@ -59,6 +70,12 @@ die Werte auf einem **SSD1306 OLED** anzeigt und gleichzeitig in einer **CSV-Dat
 ### 📌 Descripción del Proyecto
 Este proyecto muestra cómo un **ESP32** puede medir temperatura, humedad y presión atmosférica usando varios sensores ambientales,  
 mostrar los datos en una pantalla **SSD1306 OLED** y guardarlos en un **archivo CSV** en el ESP32.  
+
+### Placa de microcontrolador
+- MaESP ESP32 OLED de Makerfabs
+- Chip: Espressif ESP32 WROOM-32-E
+- OLED integrado de 1,3"
+- Fuente y más especificaciones: [Makerfabs](https://www.makerfabs.com/makepython-esp32.html?srsltid=AfmBOoo98ESGWyOQi_EoxggwQ4zqeoW0mktzH6rABH1KU28PcvKacGX1)
 
 ### 📟 Sensores Compatibles
 - **BME280** – temperatura, humedad, presión  
@@ -88,16 +105,21 @@ mostrar los datos en una pantalla **SSD1306 OLED** y guardarlos en un **archivo 
 - SHT45 → `0x44`
 - TMP117 → `0x48`
 
-### 🚀 Instalación y Uso
-1. **Flashear MicroPython** en el ESP32  
-   → p. ej. con [Thonny](https://thonny.org) o `esptool.py`
-2. **Subir librerías** (`ssd1306.py`, `bmp280.py`, `bme280.py`, `sht4x.py`, `tmp117.py`)
+### 🚀 Instalación y uso
+1. **Flashear MicroPython en el ESP32**  
+   → p. ej., con [Thonny](https://thonny.org) o `esptool.py`
+2. **Subir bibliotecas** (`ssd1306.py`, `bmp280.py`, `bme280.py`, `sht4x.py`, `tmp117.py`)
 3. Copiar el script principal `main.py` al ESP32
-4. Editar credenciales de Wi-Fi en el código:
+4. Eliminar en `main.py` la siguiente línea:
    ```python
-   connect_wifi("MI_WIFI", "MI_CONTRASEÑA")
+   from config import WIFI_SSID, WIFI_PASSWORD  # Tus credenciales de WiFi
    ```
-5. Reiniciar el ESP32 – las lecturas aparecerán en la pantalla OLED y se guardarán en `log.csv`.
+   Sustituir en main.py `WIFI_SSID` y `WIFI_PASSWORD` por los datos de tu propia red WiFi:
+   ```python
+   connect_wifi(WIFI_SSID, WIFI_PASSWORD)
+   ```
+   O bien, ignorar los dos primeros pasos del punto 4 y crear un nuevo archivo config.py con las variables `WIFI_SSID` y `WIFI_PASSWORD` para los datos de tu red WiFi.
+5. Iniciar el ESP32 – las lecturas aparecerán en la pantalla OLED y se guardarán en `log.csv`.
 
 ---
 
@@ -106,6 +128,13 @@ mostrar los datos en una pantalla **SSD1306 OLED** y guardarlos en un **archivo 
 ### 📌 Project Overview
 This project demonstrates how an **ESP32** can measure temperature, humidity, and air pressure using various environmental sensors,  
 display the data on an **SSD1306 OLED** screen, and store it in a **CSV file** on the ESP32.  
+
+### Microcontroller Board
+- MaESP ESP32 OLED by Makerfabs
+- Chip: Espressif ESP32 WROOM-32-E
+- On-board 1.3" OLED
+- Source and more specifications: [Makerfabs](https://www.makerfabs.com/makepython-esp32.html?srsltid=AfmBOoo98ESGWyOQi_EoxggwQ4zqeoW0mktzH6rABH1KU28PcvKacGX1)
+
 
 ### 📟 Supported Sensors
 - **BME280** – temperature, humidity, pressure  
@@ -136,14 +165,19 @@ display the data on an **SSD1306 OLED** screen, and store it in a **CSV file** o
 - TMP117 → `0x48`
 
 ### 🚀 Installation & Usage
-1. **Flash MicroPython** to the ESP32  
+1. **Flash MicroPython onto the ESP32**  
    → e.g., with [Thonny](https://thonny.org) or `esptool.py`
 2. **Upload libraries** (`ssd1306.py`, `bmp280.py`, `bme280.py`, `sht4x.py`, `tmp117.py`)
-3. Copy main script `main.py` to the ESP32
-4. Edit Wi-Fi credentials in code:
+3. Copy the main script `main.py` to the ESP32
+4. Delete the following line in `main.py`:
    ```python
-   connect_wifi("MY_WIFI", "MY_PASSWORD")
+   from config import WIFI_SSID, WIFI_PASSWORD  # Your WiFi credentials
    ```
-5. Restart ESP32 – readings will be shown on OLED and saved to `log.csv`.
+   Replace `WIFI_SSID` and `WIFI_PASSWORD` in `main.py` with your own WiFi network details:
+   ```python
+   connect_wifi(WIFI_SSID, WIFI_PASSWORD)
+   ```
+   Or skip the first two steps in 4 and create a new file config.py with the variables `WIFI_SSID` and `WIFI_PASSWORD` containing your WiFi network details.
+   5. Start the ESP32 – the measurements will appear on the OLED and be saved in `log.csv`.
 
 
