@@ -3,10 +3,10 @@ import network
 import ntptime
 import time
 import ssd1306
-import bmp280
+
 import sht4x   # Treiber für SHT45
 from tmp117 import TMP117  # Angenommen, TMP117-Treiber hast du als tmp117.py
-from bme280 import BME280  # BME280-Treiber (MicroPython)
+
 from config import WIFI_SSID, WIFI_PASSWORD  # Deine WLAN-Zugangsdaten
 
 # WLAN-Verbindung herstellen
@@ -52,22 +52,36 @@ def main():
     
     devices = i2c.scan()
 
+    bm_addr = 0x76
     # Sensorerkennung
     if 0x76 in devices or 0x77 in devices:
         try:
-            bme_addr = 0x76 if 0x76 in devices else 0x77
-            bme = BME280(i2c=i2c, addr=bme_addr)
-            has_bme280 = True
-            print("BME280 gefunden an Adresse", hex(bme_addr))
+            bm_addr = 0x76 if 0x76 in devices else 0x77
+            chip_id = int.from_bytes(i2c.readfrom_mem(bm_addr, 0xD0, 1), 'little')
+            print("Chip-ID 0x76:", hex(chip_id))
+            if chip_id == 0x60:
+                has_bme280= True
+            if chip_id == 0x58:
+                has_bmp280= True
+            print("BME280/BMP280 gefunden an Adresse", hex(bm_addr))
         except Exception as e:
-            print("BME280 initialisierung fehlgeschlagen:", e)
-    elif 0x76 in devices:
+            print("BME280 / BMP 280 Suche fehlgeschlagen:", e)
+            
+    if has_bme280:
+        from bme280 import BME280  # BME280-Treiber (MicroPython)
+        try:
+            bme = BME280(i2c, bm_addr)
+            print("BME280 gefunden an Adresse", hex(bm_addr))
+        except Exception as e:
+            print("BME280 Initialisierung fehlgeschlagen:", e)
+            
+    if has_bmp280:
+        import bmp280
         try:
             bmp = bmp280.BMP280(i2c)
-            has_bmp280 = True
-            print("BMP280 gefunden.")
+            print("BMP280 gefunden an Adresse", hex(bm_addr))
         except Exception as e:
-            print("BMP280 initialisierung fehlgeschlagen:", e)
+            print("BMP280 Initialisierung fehlgeschlagen:", e)
 
     if 0x3C not in devices:
         raise OSError("OLED nicht gefunden.")
@@ -115,9 +129,7 @@ def main():
     while True:
         # Messwerte lesen
         if has_bme280:
-            bmp_t = bme.temperature
-            bmp_p = bme.pressure
-            bmp_h = bme.humidity
+            bmp_t, bmp_p, bmp_h = bme.read_compensated_data()
         elif has_bmp280:
             bmp_t = bmp.temperature
             bmp_p = bmp.pressure
